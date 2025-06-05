@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0-preview.4.25258.110" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0-preview.4.25258.110" />
@@ -17,8 +18,13 @@
       <Folder Include="Exceptions\" />
       <Folder Include="Extensions\" />
       <Folder Include="Gateway\Interface\" />
+      <Folder Include="Gateway\Model\Request\" />
       <Folder Include="Gateway\Model\Response\" />
-      <Folder Include="Mappers\" />
+      <Folder Include="Model\Request\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Recipe.Domain\Recipe.Domain.csproj" />
     </ItemGroup>
 
 </Project>

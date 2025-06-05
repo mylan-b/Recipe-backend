@@ -3,6 +3,7 @@ using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Recipe.Application;
+using Recipe.Application.Mappers;
 using Recipe.Infrastructure;
 
 namespace Recipe.API;
@@ -59,6 +60,7 @@ public class Startup(IConfiguration configuration)
             });
         });
 
+        services.AddAutoMapper(typeof(MapperProfile), typeof(Startup));
         services.AddApplication();
         services.RegisterServices();
         services.AddInfrastructure(Configuration);
@@ -71,7 +73,7 @@ public class Startup(IConfiguration configuration)
             .AllowAnyMethod()
             .AllowCredentials()
             .SetIsOriginAllowed(_ => true));
-        
+
         builder.UseRouting();
         builder.UseEndpoints(endpoint => endpoint.MapControllers());
         builder.UseSwagger();

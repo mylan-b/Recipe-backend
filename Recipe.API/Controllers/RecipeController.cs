@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Recipe.Application.Gateway.Model.Request;
 using Recipe.Application.Interfaces;
+using Recipe.Application.Model.Response;
 
 namespace Recipe.API.Controllers;
 
@@ -44,4 +44,11 @@ public class RecipeController(IRecipeService recipeService) : ControllerBase
     {
         return await recipeService.UpdateRecipe(id, recipeDto);
     }
+    
+    [HttpGet("filter", Name = "FilterByTag")]
+    public async Task<IEnumerable<RecipeDto>> FilterByTag([FromQuery] string tag)
+    {
+        return await recipeService.FilterRecipesByTag(tag);
+    }
+
 }

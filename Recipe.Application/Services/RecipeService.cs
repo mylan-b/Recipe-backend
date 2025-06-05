@@ -1,32 +1,54 @@
-﻿using Recipe.Application.Gateway.Model.Request;
+﻿using AutoMapper;
 using Recipe.Application.Interfaces;
+using Recipe.Application.Model.Response;
+using Recipe.Domain;
 
 namespace Recipe.Application.Services;
 
-public class RecipeService : IRecipeService
+public class RecipeService(IRecipeRepository recipeRepository, IMapper mapper) : IRecipeService
 {
-    public Task<IEnumerable<RecipeDto>> GetAllRecipes()
+    public async Task<IEnumerable<RecipeDto>> GetAllRecipes()
     {
-        throw new NotImplementedException();
+        var recipes = await recipeRepository.GetAllRecipesAsync();
+        return mapper.Map<IEnumerable<RecipeDto>>(recipes);
     }
 
-    public Task<RecipeDto> GetRecipeById(int id)
+    public async Task<RecipeDto> GetRecipeById(int id)
     {
-        throw new NotImplementedException();
+        var recipe = await recipeRepository.GetRecipeByIdAsync(id)
+                     ?? throw new KeyNotFoundException($"Recipe with ID {id} not found.");
+        return mapper.Map<RecipeDto>(recipe);
     }
 
-    public Task<RecipeDto> UpdateRecipe(int id, RecipeDto recipeDto)
+    public async Task<RecipeDto> UpdateRecipe(int id, RecipeDto recipeDto)
     {
-        throw new NotImplementedException();
+        var entity = mapper.Map<Domain.Entities.Recipe>(recipeDto);
+        entity.Id = id;
+
+        var updated = await recipeRepository.UpdateRecipeAsync(entity)
+                      ?? throw new KeyNotFoundException($"Recipe with ID {id} not found.");
+
+        return mapper.Map<RecipeDto>(updated);
     }
 
-    public Task<RecipeDto> DeleteRecipeById(int id)
+    public async Task DeleteRecipeById(int id)
     {
-        throw new NotImplementedException();
+        var recipe = await recipeRepository.GetRecipeByIdAsync(id)
+                     ?? throw new KeyNotFoundException($"Recipe with ID {id} not found.");
+
+        await recipeRepository.DeleteRecipeAsync(id);
     }
 
-    public Task<RecipeDto> CreateRecipe(RecipeDto recipeDto)
+    public async Task<RecipeDto> CreateRecipe(RecipeDto recipeDto)
     {
-        throw new NotImplementedException();
+        var recipe = mapper.Map<Domain.Entities.Recipe>(recipeDto);
+        var created = await recipeRepository.CreateRecipeAsync(recipe);
+        return mapper.Map<RecipeDto>(created);
+    }
+
+    public async Task<IEnumerable<RecipeDto>> FilterRecipesByTag(string tag)
+    {
+        var results = await recipeRepository.FilterRecipesByTagAsync(tag);
+        return mapper.Map<IEnumerable<RecipeDto>>(results);
     }
 }
