@@ -2,6 +2,7 @@
 using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Recipe.API.Common.Filters;
 using Recipe.Application;
 using Recipe.Application.Mappers;
 using Recipe.Infrastructure;
@@ -19,6 +20,7 @@ public class Startup(IConfiguration configuration)
             opt.Filters.Add(new ProducesAttribute("application/json"));
             opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "This field is Required");
             opt.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+            opt.Filters.Add(typeof(RestExceptionFilter));
         }).AddJsonOptions(opt =>
         {
             opt.JsonSerializerOptions.DefaultIgnoreCondition =

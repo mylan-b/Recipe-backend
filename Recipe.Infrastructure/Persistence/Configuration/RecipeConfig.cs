@@ -8,6 +8,7 @@ public class RecipeConfig: IEntityTypeConfiguration<Domain.Entities.Recipe>
     public void Configure(EntityTypeBuilder<Domain.Entities.Recipe> builder)
     {
         builder.HasKey(r => r.Id);
+        builder.HasIndex(r => r.Title).IsUnique();
         
         builder.HasData(
             new Domain.Entities.Recipe
