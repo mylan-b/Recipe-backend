@@ -7,7 +7,7 @@ public class ErrorHandler
     public static void NotFound(string entityName, object key)
     {
         throw new RepositoryException(
-            "404",
+            "400",
             $"{entityName} not found.",
             $"No {entityName.ToLower()} found with ID {key}."
         );
