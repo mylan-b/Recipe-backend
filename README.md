@@ -99,4 +99,8 @@ bash dotnet test
 
 ---
 
+## BenchMark
+
+![img.png](img.png)
+
 If you encounter issues or need further support, feel free to raise an issue in the repository.
